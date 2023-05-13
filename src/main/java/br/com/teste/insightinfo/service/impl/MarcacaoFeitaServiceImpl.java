@@ -22,8 +22,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MarcacaoFeitaServiceImpl implements MarcacaoFeitaService{
 	
-	private MarcacaoFeitaRepository marcacaoFeitaRepository;
-	private MarcacaoFeitaMapper marcacaoFeitaMapper;
+	private final MarcacaoFeitaRepository marcacaoFeitaRepository;
+	private final MarcacaoFeitaMapper marcacaoFeitaMapper;
 	
 	@Override
 	public MarcacaoFeitaDTO save(MarcacaoFeitaDTO entity) {

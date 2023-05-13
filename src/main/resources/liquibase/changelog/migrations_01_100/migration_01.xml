@@ -13,10 +13,10 @@
     		<column name="id" type="bigint">
     			<constraints primaryKey="true"/>
     		</column>
-    		<column name="entrada" type="date">
+    		<column name="entrada" type="time">
     			<constraints nullable="false"/>
     		</column>
-    		<column name="saida" type="date">
+    		<column name="saida" type="time">
     			<constraints nullable="false"/>
     		</column>
     	</createTable>
@@ -25,10 +25,10 @@
     		<column name="id" type="bigint">
     			<constraints primaryKey="true"/>
     		</column>
-    		<column name="entrada" type="date">
+    		<column name="entrada" type="time">
     			<constraints nullable="false"/>
     		</column>
-    		<column name="saida" type="date">
+    		<column name="saida" type="time">
     			<constraints nullable="false"/>
     		</column>
     	</createTable>
