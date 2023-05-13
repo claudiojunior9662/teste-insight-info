@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Create tables for MarcacaoFeita and HorarioTrabalho
+    -->
+    <changeSet author="claudioJr" id="202305122145-1">
+    	<createSequence sequenceName="sequence_generator" startValue="1050" incrementBy="50"/>
+    
+    	<createTable tableName="marcacao_feita">
+    		<column name="id" type="bigint">
+    			<constraints primaryKey="true"/>
+    		</column>
+    		<column name="entrada" type="date">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="saida" type="date">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    	
+    	<createTable tableName="horario_trabalho">
+    		<column name="id" type="bigint">
+    			<constraints primaryKey="true"/>
+    		</column>
+    		<column name="entrada" type="date">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="saida" type="date">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    </changeSet>
+</databaseChangeLog>
