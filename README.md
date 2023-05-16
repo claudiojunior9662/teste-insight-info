@@ -1,2 +1,5 @@
-# teste-insight-info
-Projeto para registro de horas trabalhadas e marcações feitas
+# Calc Ponto
+Projeto para registro de horas trabalhadas e marcações feitas.
+
+# Execução
+mvn spring-boot:run
