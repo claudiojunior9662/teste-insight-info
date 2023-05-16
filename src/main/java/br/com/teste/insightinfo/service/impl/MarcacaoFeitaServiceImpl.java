@@ -3,6 +3,7 @@ package br.com.teste.insightinfo.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,18 @@ public class MarcacaoFeitaServiceImpl implements MarcacaoFeitaService{
 	@Override
 	public MarcacaoFeitaDTO save(MarcacaoFeitaDTO entity) {
 		log.debug("Saving an {}: {}", MarcacaoFeita.class, entity);
+		if(findOne(entity).isPresent()) {
+			throw new ServiceException("Registro já existente");
+		}
 		return marcacaoFeitaMapper.toDto(marcacaoFeitaRepository.save(marcacaoFeitaMapper.toEntity(entity)));
 	}
 
 	@Override
 	public MarcacaoFeitaDTO update(MarcacaoFeitaDTO entity) {
 		log.debug("Updating an {}: {}", MarcacaoFeita.class, entity);
+		if(findOne(entity).isPresent()) {
+			throw new ServiceException("Registro já existente");
+		}
 		return marcacaoFeitaMapper.toDto(marcacaoFeitaRepository.save(marcacaoFeitaMapper.toEntity(entity)));
 	}
 

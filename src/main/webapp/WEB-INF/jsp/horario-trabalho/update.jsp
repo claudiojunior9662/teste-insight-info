@@ -12,8 +12,8 @@
 	 	<jsp:include page="../common/header.jsp"></jsp:include>
 	 	
 	 	<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Você está em:&nbsp<a href="/index">Home</a></li>
+			<ol class="breadcrumb ms-2">
+				<li class="breadcrumb-item">Você está em:&nbsp<a href="/calcponto-1.0">Home</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Novo Horário de Trabalho</li>
 			</ol>
 		</nav>
@@ -21,6 +21,13 @@
 	 	<c:if test="${addHorarioTrabalhoSuccess}">
  			<div class="alert alert-success alert-dismissible fade show" role="alert">
 	         	Horário de Trabalho adicionado com sucesso
+	         	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	         </div>
+	     </c:if>
+	     
+	     <c:if test="${addHorarioTrabalhoError}">
+ 			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	         	Erro ao adicionar o horário de trabalho: <strong>${addHorarioTrabalhoErrorMessage}.</strong>
 	         	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	         </div>
 	     </c:if>

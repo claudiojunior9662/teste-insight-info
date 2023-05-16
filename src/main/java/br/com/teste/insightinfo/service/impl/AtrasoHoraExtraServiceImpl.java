@@ -408,4 +408,34 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
                 .toInstant(); // Instant
 		return new DateTime(instant.getLong(ChronoField.INSTANT_SECONDS));
 	}
+
+	@Override
+	public Integer retornaQuantidadeHorasHoraExtra(List<HoraExtraDTO> values) {
+		Integer result = 0;
+		
+		if(values.isEmpty()) {
+			return result;
+		}		
+		
+		for(HoraExtraDTO horaExtra : values) {
+			result += horaExtra.getFim().getHour() - horaExtra.getInicio().getHour();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public Integer retornaQuantidadeHorasAtraso(List<AtrasoDTO> values) {
+		Integer result = 0;
+		
+		if(values.isEmpty()) {
+			return result;
+		}
+		
+		for(AtrasoDTO atraso : values) {
+			result += atraso.getFim().getHour() - atraso.getInicio().getHour();
+		}
+		
+		return result;
+	}
 }

@@ -12,8 +12,8 @@
 	 	<jsp:include page="../common/header.jsp"></jsp:include>
 	 	
 	 	<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Você está em:&nbsp<a href="/index">Home</a></li>
+			<ol class="breadcrumb ms-2">
+				<li class="breadcrumb-item">Você está em:&nbsp<a href="/calcponto-1.0">Home</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Nova Marcação Feita</li>
 			</ol>
 		</nav>

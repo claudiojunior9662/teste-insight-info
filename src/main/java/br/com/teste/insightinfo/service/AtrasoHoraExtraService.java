@@ -10,4 +10,6 @@ import br.com.teste.insightinfo.domain.dto.MarcacaoFeitaDTO;
 public interface AtrasoHoraExtraService {
 	List<AtrasoDTO> calculaAtrasos(List<HorarioTrabalhoDTO> horariosTrabalho, List<MarcacaoFeitaDTO> marcacoesFeitas);
 	List<HoraExtraDTO> calculaHorasExtras(List<MarcacaoFeitaDTO> horariosTrabalho, List<HorarioTrabalhoDTO> marcacoesFeitas);
+	Integer retornaQuantidadeHorasHoraExtra(List<HoraExtraDTO> values);
+	Integer retornaQuantidadeHorasAtraso(List<AtrasoDTO> values);
 }

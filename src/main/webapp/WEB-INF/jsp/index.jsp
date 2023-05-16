@@ -12,14 +12,14 @@
 	<jsp:include page="./common/header.jsp"></jsp:include>
 
 	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
+		<ol class="breadcrumb ms-2">
 			<li class="breadcrumb-item">Você está em:&nbsp<a href="#">Home</a></li>
 		</ol>
 	</nav>
 	
 	<h3>Horários de trabalho</h3>
 	
-	<a href="/horario-trabalho/add-horario-trabalho" class="btn btn-primary ms-3 mb-3">Adicionar novo horário de trabalho</a>
+	<a href="/calcponto-1.0/horario-trabalho/add-horario-trabalho" class="btn btn-primary ms-3 mb-3">Adicionar novo horário de trabalho</a>
  	
  	<c:if test="${isHorarioTrabalhoExcluido}">
          <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -44,8 +44,8 @@
                      <td>${horarioTrabalho.entrada}</td>
                      <td>${horarioTrabalho.saida}</td>
                      <td>
-                     	<a href="/horario-trabalho/edit-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-primary btn-sm">Editar</a>
-                     	<a href="/horario-trabalho/delete-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-danger btn-sm">Excluir</a>
+                     	<a href="/calcponto-1.0/horario-trabalho/edit-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-primary btn-sm">Editar</a>
+                     	<a href="/calcponto-1.0/horario-trabalho/delete-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-danger btn-sm">Excluir</a>
                      </td>
                  </tr>
              </c:forEach>
@@ -55,7 +55,7 @@
      <hr>
      <h3>Marcações feitas</h3>
      
-     <a href="/marcacao-feita/add-marcacao-feita" class="btn btn-primary ms-3 mb-3">Adicionar nova marcação feita</a>
+     <a href="/calcponto-1.0/marcacao-feita/add-marcacao-feita" class="btn btn-primary ms-3 mb-3">Adicionar nova marcação feita</a>
  	
  	<c:if test="${isMarcacaoFeitaExcluida}">
          <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -80,8 +80,8 @@
                      <td>${marcacao.entrada}</td>
                      <td>${marcacao.saida}</td>
                      <td>
-                     	<a href="/marcacao-feita/edit-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-primary btn-sm">Editar</a>
-                     	<a href="/marcacao-feita/delete-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-danger btn-sm">Excluir</a>
+                     	<a href="/calcponto-1.0/marcacao-feita/edit-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-primary btn-sm">Editar</a>
+                     	<a href="/calcponto-1.0/marcacao-feita/delete-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-danger btn-sm">Excluir</a>
                      </td>
                  </tr>
              </c:forEach>
@@ -113,6 +113,10 @@
 			             </c:forEach>
 			         </tbody>
 			     </table>
+			     
+			     <div test="${duracaoAtrasos}">
+			     	<p>Total: ${duracaoAtrasos}h</p>
+			     </div>
      		</div>
      		<div class="col">
      			<h3 class="text-center">Horas Extras</h3>
@@ -133,6 +137,10 @@
 			             </c:forEach>
 			         </tbody>
 			     </table>
+			     
+			     <div test="${duracaoHorasExtras}">
+			     	<p>Total: ${duracaoHorasExtras}h</p>
+			     </div>
      		</div>
      	</div>
      </div>

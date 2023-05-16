@@ -1,13 +1,8 @@
 <header>
  <nav class="navbar navbar-expand-md navbar-dark"
-  style="background-color: tomato">
+  style="background-color: blue">
   <div>
-   <a href="#" class="navbar-brand">Insight Informática</a>
+   <a href="#" class="navbar-brand ms-2">Calc Ponto v.1.0</a>
   </div>
-
-  <ul class="navbar-nav navbar-collapse justify-content-end">
-   <li><a href="<%= request.getContextPath() %>/login" class="nav-link">Login</a></li>
-   <li><a href="<%= request.getContextPath() %>/register" class="nav-link">Signup</a></li>
-  </ul>
  </nav>
 </header>

@@ -32,12 +32,18 @@ public class HorarioTrabalhoServiceImpl implements HorarioTrabalhoService{
 		if(horarioTrabalhoRepository.count() == 3) {
 			throw new ServiceException("Número máximo de registros excedido");
 		}
+		if(findOne(entity).isPresent()) {
+			throw new ServiceException("Registro já existente");
+		}
 		return horarioTrabalhoMapper.toDto(horarioTrabalhoRepository.save(horarioTrabalhoMapper.toEntity(entity)));
 	}
 	
 	@Override
 	public HorarioTrabalhoDTO update(HorarioTrabalhoDTO entity) {
 		log.debug("Updating an {}: {}", MarcacaoFeita.class, entity);
+		if(findOne(entity).isPresent()) {
+			throw new ServiceException("Registro já existente");
+		}
 		return horarioTrabalhoMapper.toDto(horarioTrabalhoRepository.save(horarioTrabalhoMapper.toEntity(entity)));
 	}
 	
