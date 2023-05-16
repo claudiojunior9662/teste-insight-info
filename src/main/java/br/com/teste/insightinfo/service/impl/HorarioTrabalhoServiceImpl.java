@@ -3,6 +3,7 @@ package br.com.teste.insightinfo.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class HorarioTrabalhoServiceImpl implements HorarioTrabalhoService{
 	@Override
 	public HorarioTrabalhoDTO save(HorarioTrabalhoDTO entity) {
 		log.debug("Saving an {}: {}", MarcacaoFeita.class, entity);
+		if(horarioTrabalhoRepository.count() == 3) {
+			throw new ServiceException("Número máximo de registros excedido");
+		}
 		return horarioTrabalhoMapper.toDto(horarioTrabalhoRepository.save(horarioTrabalhoMapper.toEntity(entity)));
 	}
 	

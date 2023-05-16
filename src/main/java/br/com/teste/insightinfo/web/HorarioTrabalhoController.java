@@ -21,12 +21,6 @@ public class HorarioTrabalhoController {
 
 	private final HorarioTrabalhoService horarioTrabalhoService;
 	
-	@GetMapping
-	public String listHorarioTrabalho(Model model, RedirectAttributes redirectAttributes) {
-		model.addAttribute("horariosTrabalhos", horarioTrabalhoService.findAll());
-		return "horario-trabalho/list";
-	}
-	
 	@GetMapping("/add-horario-trabalho")
 	public String viewAddHorarioTrabalho(Model model) {
 		model.addAttribute("horarioTrabalho", new HorarioTrabalhoDTO());
@@ -42,9 +36,9 @@ public class HorarioTrabalhoController {
 	
 	@GetMapping("/delete-horario-trabalho")
 	public RedirectView deleteHorarioTrabalho(Model model, @RequestParam(name = "id", required = true) Long id, RedirectAttributes redirectAttributes) {
-		final RedirectView redirectView = new RedirectView("/horario-trabalho", true);
+		final RedirectView redirectView = new RedirectView("/index", true);
 		horarioTrabalhoService.delete(id);
-		redirectAttributes.addFlashAttribute("isExcluido", true);
+		redirectAttributes.addFlashAttribute("isHorarioTrabalhoExcluido", true);
 		return redirectView;
 	}
 	

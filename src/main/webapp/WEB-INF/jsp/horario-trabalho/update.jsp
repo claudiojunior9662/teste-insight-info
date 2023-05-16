@@ -14,7 +14,6 @@
 	 	<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">Você está em:&nbsp<a href="/index">Home</a></li>
-				<li class="breadcrumb-item"><a href="/horario-trabalho">Horários de Trabalho</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Novo Horário de Trabalho</li>
 			</ol>
 		</nav>

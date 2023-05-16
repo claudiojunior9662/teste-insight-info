@@ -21,12 +21,6 @@ public class MarcacaoFeitaController {
 
 	private final MarcacaoFeitaService marcacaoFeitaService;
 	
-	@GetMapping
-	public String listMarcacaoFeita(Model model, RedirectAttributes redirectAttributes) {
-		model.addAttribute("marcacoesFeitas", marcacaoFeitaService.findAll());
-		return "marcacao-feita/list";
-	}
-	
 	@GetMapping("/add-marcacao-feita")
 	public String viewAddMarcacaoFeita(Model model) {
 		model.addAttribute("marcacaoFeita", new MarcacaoFeitaDTO());
@@ -42,9 +36,9 @@ public class MarcacaoFeitaController {
 	
 	@GetMapping("/delete-marcacao-feita")
 	public RedirectView deleteMarcacaoFeita(Model model, @RequestParam(name = "id", required = true) Long id, RedirectAttributes redirectAttributes) {
-		final RedirectView redirectView = new RedirectView("/marcacao-feita", true);
+		final RedirectView redirectView = new RedirectView("/index", true);
 		marcacaoFeitaService.delete(id);
-		redirectAttributes.addFlashAttribute("isExcluido", true);
+		redirectAttributes.addFlashAttribute("isMarcacaoFeitaExcluida", true);
 		return redirectView;
 	}
 	
