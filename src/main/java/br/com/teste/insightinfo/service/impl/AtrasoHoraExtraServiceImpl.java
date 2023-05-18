@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -65,21 +66,23 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 		setHorariosTrabalho(horariosTrabalho);
 		setMarcacoesFeitas(marcacoesFeitas);
 		
-		getHorariosTrabalho().forEach(horario -> {
-			getMarcacoesFeitas().forEach(marcacao -> {
+		for(HorarioTrabalhoDTO horario : getHorariosTrabalho()) {
+			for(MarcacaoFeitaDTO marcacao : getMarcacoesFeitas()) {
 				Set<IntervalIndicator> intervalosAtraso = returnIntervalsBetweenTimes(
 						horario, 
 						marcacao);
-				intervalosAtraso.forEach(intervalo -> {
+				for(IntervalIndicator intervalo : intervalosAtraso) {
 					if(intervalo.isAtraso()) {
 						preResult.add(new AtrasoDTO(intervalo.getInicio(), intervalo.getFim()));
 					}
-				});
-			});
-		});
+				}
+			}
+		}
 		
 		Set<IntervalIndicator> intervalosEntreHorarios = returnMiddleIntervalsBetweenWorkTimes(horariosTrabalho);
 		intervalosEntreHorarios.addAll(returnMiddleIntervalsBetweenMarkedTimes(marcacoesFeitas));
+		
+		preResult = verifyValidIntervalBetweenTimesLateAndAdd(preResult, intervalosEntreHorarios);
 		
 		List<AtrasoDTO> result = removeDuplicateElements(preResult);
 		result.sort(null);
@@ -160,12 +163,15 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 				if(horarioTrabalho.getSaida().compareTo(marcacaoFeita.getSaida()) > 0) {
 					// a hora fim de 'horarioTrabalho' é maior que a hora fim de 'marcacaoFeita'
 					result = verifyValidIntervalAndAdd(
-							result, new IntervalIndicator(marcacaoFeita.getSaida(), horarioTrabalho.getSaida(), true));
+							result, 
+							new IntervalIndicator(marcacaoFeita.getSaida(), horarioTrabalho.getSaida(), true),
+							false);
 				} else {
 					// a hora fim de 'marcacaoFeita' é maior que a hora fim de 'horarioTrabalho'
 					result = verifyValidIntervalAndAdd(
 							result, 
-							new IntervalIndicator(horarioTrabalho.getSaida(), marcacaoFeita.getSaida(), false));
+							new IntervalIndicator(horarioTrabalho.getSaida(), marcacaoFeita.getSaida(), false),
+							false);
 				}
 			}
 		} else {
@@ -176,12 +182,14 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 					// a hora início de 'horarioTrabalho' é maior que a hora início de 'marcacaoFeita'
 					result = verifyValidIntervalAndAdd(
 							result, 
-							new IntervalIndicator(marcacaoFeita.getEntrada(), horarioTrabalho.getEntrada(), false));
+							new IntervalIndicator(marcacaoFeita.getEntrada(), horarioTrabalho.getEntrada(), false),
+							false);
 				} else {
 					//  a hora início de 'marcacaoFeita' é maior que a hora início de 'horarioTrabalho'
 					result = verifyValidIntervalAndAdd(
 							result, 
-							new IntervalIndicator(horarioTrabalho.getEntrada(), marcacaoFeita.getEntrada(), true));
+							new IntervalIndicator(horarioTrabalho.getEntrada(), marcacaoFeita.getEntrada(), true),
+							false);
 				}
 				
 			} else {
@@ -190,12 +198,14 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 					// a hora início de 'horarioTrabalho' é maior que a hora início de 'marcacaoFeita'
 					result = verifyValidIntervalAndAdd(
 							result, 
-							new IntervalIndicator(marcacaoFeita.getEntrada(), horarioTrabalho.getEntrada(), false));
+							new IntervalIndicator(marcacaoFeita.getEntrada(), horarioTrabalho.getEntrada(), false),
+							false);
 				} else {
 					//  a hora início de 'marcacaoFeita' é maior que a hora início de 'horarioTrabalho'
 					result = verifyValidIntervalAndAdd(
 							result, 
-							new IntervalIndicator(horarioTrabalho.getEntrada(), marcacaoFeita.getEntrada(), true));
+							new IntervalIndicator(horarioTrabalho.getEntrada(), marcacaoFeita.getEntrada(), true),
+							false);
 				}
 			}
 			
@@ -331,7 +341,8 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 	 */
 	private Set<IntervalIndicator> verifyValidIntervalAndAdd(
 			Set<IntervalIndicator> intervalosAdicionados, 
-			IntervalIndicator novoIntervalo) {
+			IntervalIndicator novoIntervalo,
+			boolean isBetweenTimes) {
 		if(novoIntervalo.getFim().getHour() - novoIntervalo.getInicio().getHour() > 8 && 
 			(novoIntervalo.getFim().getHour() < 6 || novoIntervalo.getInicio().getHour() < 6)) {
 			LocalTime temp = novoIntervalo.getFim();
@@ -364,7 +375,31 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 						dateTimeEntrada, 
 						dateTimeSaida);
 				if(compareInterval.overlaps(compareMarcacaoFeita)) {
+					// intervalo dentro de uma marcação feita, não é um atraso válido
 					contido = true;
+					break;
+				}
+			}
+			
+			if(isBetweenTimes && !contido) {
+				for(HorarioTrabalhoDTO horarioTrabalho : getHorariosTrabalho()) {				
+					dateTimeEntrada = convertLocalTimeToDateTime(horarioTrabalho.getEntrada());				
+					dateTimeSaida = convertLocalTimeToDateTime(horarioTrabalho.getSaida());
+					
+					if(dateTimeEntrada.compareTo(dateTimeSaida) > 0) {
+						dateTimeSaida = dateTimeSaida.plusDays(1);
+					}
+					
+					Interval compareHorarioTrabalho = new Interval(
+							dateTimeEntrada, 
+							dateTimeSaida);
+					if(compareHorarioTrabalho.contains(compareInterval)) {
+						// intervalo totalmente dentro do horário de trabalho
+						contido = false;
+					} else if(compareInterval.overlaps(compareHorarioTrabalho)) {
+						// intervalo com parte fora, parte dentro do horário de trabalho, não é válido
+						contido = true;
+					}
 				}
 			}
 		} else {
@@ -391,6 +426,60 @@ public class AtrasoHoraExtraServiceImpl implements AtrasoHoraExtraService{
 		
 		return intervalosAdicionados;
 	}
+	
+	private List<AtrasoDTO> verifyValidIntervalBetweenTimesLateAndAdd(
+			List<AtrasoDTO> intervalosAdicionados, 
+			Set<IntervalIndicator> intervalosEntreTempos) {
+		Set<IntervalIndicator> listaConvertida = new HashSet<IntervalIndicator>();
+		
+		for(AtrasoDTO atraso : intervalosAdicionados) {
+			listaConvertida.add(new IntervalIndicator(atraso.getInicio(), atraso.getFim(), true));
+		}
+		
+		intervalosEntreTempos = intervalosEntreTempos.stream().map(intervalo -> {
+			intervalo.setAtraso(true);
+			return intervalo;
+		}).collect(Collectors.toSet());
+		
+		for(IntervalIndicator intervalo : intervalosEntreTempos) {
+			listaConvertida = verifyValidIntervalAndAdd(listaConvertida, intervalo, true);
+		}
+		
+		List<AtrasoDTO> result = new ArrayList<AtrasoDTO>();
+		
+		listaConvertida.forEach(toConvert -> {
+			result.add(new AtrasoDTO(toConvert.getInicio(), toConvert.getFim()));
+		});
+		
+		return result;
+	}
+	
+//	private List<HoraExtraDTO> verifyValidIntervalBetweenTimesExtraHourAndAdd(
+//			List<HoraExtraDTO> intervalosAdicionados, 
+//			Set<IntervalIndicator> intervalosEntreTempos) {
+//		Set<IntervalIndicator> listaConvertida = new HashSet<IntervalIndicator>();
+//		
+//		for(HoraExtraDTO atraso : intervalosAdicionados) {
+//			listaConvertida.add(new IntervalIndicator(atraso.getInicio(), atraso.getFim(), false));
+//		}
+//		
+//		intervalosEntreTempos = intervalosEntreTempos.stream().map(intervalo -> {
+//			intervalo.setAtraso(false);
+//			return intervalo;
+//		}).collect(Collectors.toSet());
+//		
+//		for(IntervalIndicator intervalo : intervalosEntreTempos) {
+//			listaConvertida = verifyValidIntervalAndAdd(listaConvertida, intervalo);
+//		}
+//		
+//		List<HoraExtraDTO> result = new ArrayList<HoraExtraDTO>();
+//		
+//		listaConvertida.forEach(toConvert -> {
+//			result.add(new HoraExtraDTO(toConvert.getInicio(), toConvert.getFim()));
+//		});
+//		
+//		return result;
+//	}
 	
 	/**
 	 * Método auxiliar para converter {@link LocalTime} para {@link DateTime}
