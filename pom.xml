@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.teste</groupId>
 	<artifactId>calcponto</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<name>insightinfo</name>
 	<description>Teste Insight Info</description>
 	<packaging>war</packaging>

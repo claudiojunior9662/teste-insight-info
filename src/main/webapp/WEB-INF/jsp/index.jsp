@@ -20,6 +20,7 @@
 	<h3>Horários de trabalho</h3>
 	
 	<a href="/calcponto-1.0/horario-trabalho/add-horario-trabalho" class="btn btn-primary ms-3 mb-3">Adicionar novo horário de trabalho</a>
+<!-- 	<a href="/horario-trabalho/add-horario-trabalho" class="btn btn-primary ms-3 mb-3">Adicionar novo horário de trabalho</a> -->
  	
  	<c:if test="${isHorarioTrabalhoExcluido}">
          <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -46,6 +47,8 @@
                      <td>
                      	<a href="/calcponto-1.0/horario-trabalho/edit-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-primary btn-sm">Editar</a>
                      	<a href="/calcponto-1.0/horario-trabalho/delete-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-danger btn-sm">Excluir</a>
+<%--                      	<a href="/horario-trabalho/edit-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-primary btn-sm">Editar</a> --%>
+<%--                      	<a href="/horario-trabalho/delete-horario-trabalho?id=<c:out value='${horarioTrabalho.id}' />" class="btn btn-danger btn-sm">Excluir</a> --%>
                      </td>
                  </tr>
              </c:forEach>
@@ -56,6 +59,7 @@
      <h3>Marcações feitas</h3>
      
      <a href="/calcponto-1.0/marcacao-feita/add-marcacao-feita" class="btn btn-primary ms-3 mb-3">Adicionar nova marcação feita</a>
+<!--      <a href="/marcacao-feita/add-marcacao-feita" class="btn btn-primary ms-3 mb-3">Adicionar nova marcação feita</a> -->
  	
  	<c:if test="${isMarcacaoFeitaExcluida}">
          <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -82,6 +86,8 @@
                      <td>
                      	<a href="/calcponto-1.0/marcacao-feita/edit-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-primary btn-sm">Editar</a>
                      	<a href="/calcponto-1.0/marcacao-feita/delete-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-danger btn-sm">Excluir</a>
+<%--                      	<a href="/marcacao-feita/edit-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-primary btn-sm">Editar</a> --%>
+<%--                      	<a href="/marcacao-feita/delete-marcacao-feita?id=<c:out value='${marcacao.id}' />" class="btn btn-danger btn-sm">Excluir</a> --%>
                      </td>
                  </tr>
              </c:forEach>

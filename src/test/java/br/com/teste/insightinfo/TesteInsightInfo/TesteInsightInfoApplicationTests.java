@@ -191,4 +191,238 @@ class TesteInsightInfoApplicationTests {
 		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
 		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
 	}
+	
+	@Test
+	void testScenario8() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario9() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(6, 0), LocalTime.of(7, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(6, 0), LocalTime.of(7, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario10() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(8, 0), LocalTime.of(11, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(12, 0), LocalTime.of(16, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(17, 0), LocalTime.of(21, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(22, 0), LocalTime.of(23, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(11, 0), LocalTime.of(12, 0)));
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(16, 0), LocalTime.of(17, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(12, 0), LocalTime.of(14, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(18, 0), LocalTime.of(21, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(22, 0), LocalTime.of(23, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario11() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(7, 0), LocalTime.of(11, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(13, 0), LocalTime.of(17, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(7, 0), LocalTime.of(11, 0)));
+		
+		// expectations scenario
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(13, 0), LocalTime.of(17, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario12() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(7, 0), LocalTime.of(11, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(13, 0), LocalTime.of(17, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(7, 0), LocalTime.of(10, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(11, 0), LocalTime.of(15, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(16, 0), LocalTime.of(18, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(11, 0), LocalTime.of(13, 0)));
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(17, 0), LocalTime.of(18, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(10, 0), LocalTime.of(11, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(15, 0), LocalTime.of(16, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(19, 0), LocalTime.of(21, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario13() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(23, 0), LocalTime.of(6, 0)));
+		
+		// expectations scenario
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(22, 0), LocalTime.of(23, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario14() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(22, 0), LocalTime.of(5, 0)));
+		
+		// expectations scenario
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(5, 0), LocalTime.of(6, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario15() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(20, 0), LocalTime.of(22, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(6, 0), LocalTime.of(7, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(20, 0), LocalTime.of(22, 0)));
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(6, 0), LocalTime.of(7, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(22, 0), LocalTime.of(6, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario16() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(1, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(2, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(22, 0), LocalTime.of(1, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(7, 0), LocalTime.of(15, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(7, 0), LocalTime.of(15, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(2, 0), LocalTime.of(6, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario17() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(1, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(2, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(20, 0), LocalTime.of(21, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(2, 0), LocalTime.of(6, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(20, 0), LocalTime.of(21, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(22, 0), LocalTime.of(1, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
+	
+	@Test
+	void testScenario18() {		
+		// scenario
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(22, 0), LocalTime.of(1, 0)));
+		horariosTrabalho.add(new HorarioTrabalhoDTO(LocalTime.of(2, 0), LocalTime.of(6, 0)));
+		marcacoesFeitas.add(new MarcacaoFeitaDTO(LocalTime.of(22, 0), LocalTime.of(5, 0)));
+		
+		// expectations scenario
+		horasExtrasExpect.add(new HoraExtraDTO(LocalTime.of(1, 0), LocalTime.of(2, 0)));
+		atrasosExpect.add(new AtrasoDTO(LocalTime.of(5, 0), LocalTime.of(6, 0)));
+		
+		// executing scenario
+		horasExtrasResult = atrasoHoraExtraService.calculaHorasExtras(marcacoesFeitas, horariosTrabalho);
+		atrasosResult = atrasoHoraExtraService.calculaAtrasos(horariosTrabalho, marcacoesFeitas);
+		
+		// checks scenario
+		Assertions.assertThat(horasExtrasResult).containsExactlyElementsOf(horasExtrasExpect);
+		Assertions.assertThat(atrasosResult).containsExactlyElementsOf(atrasosExpect);
+	}
 }
